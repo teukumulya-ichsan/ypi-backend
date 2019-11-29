@@ -5,7 +5,7 @@ class UserController {
     this.userService = new UserService();
     this.index = this.index.bind(this);
     this.getById = this.getById.bind(this);
-    this.create = this.create.bind(this);
+    this.insert = this.insert.bind(this);
     this.update = this.update.bind(this);
   }
 
@@ -21,8 +21,8 @@ class UserController {
     });
   }
 
-  async create(req, res) {
-    const saveUser = await this.userService.createUser(req.body);
+  async insert(req, res) {
+    const saveUser = await this.userService.insert(req.body);
 
     if (saveUser.status !== 200) {
       res.status(500);
@@ -41,8 +41,7 @@ class UserController {
     const userId = req.params.id;
     const userData = req.body;
 
-    console.log(userId, userData);
-    const updateUser = await this.userService.updateUser(userId, userData);
+    const updateUser = await this.userService.update(userId, userData);
 
     res.status(updateUser.status);
     if (updateUser.status === 200) {

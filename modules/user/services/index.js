@@ -19,13 +19,14 @@ class UserService {
     return "Data Empty";
   }
 
-  async createUser(data) {
+  async insert(data) {
     const user = {
       name: data.name,
       password: data.password
     };
 
     const userSave = await this.userModel.insert(user);
+
     if (userSave.affectedRows === 0) {
       return {
         status: 500
@@ -38,7 +39,7 @@ class UserService {
     };
   }
 
-  async updateUser(userId, userData) {
+  async update(userId, userData) {
     if (!userId) {
       return {
         status: 400,
