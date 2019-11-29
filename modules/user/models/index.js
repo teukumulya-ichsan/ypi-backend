@@ -30,6 +30,11 @@ class UserModel {
     const result = await this.dbService.query(query, [data, userId]);
     return result;
   }
+
+  async fullDelete(id) {
+    const query = `DELETE from ${this.table} where id=?`;
+    return await this.dbService.query(query, id);
+  }
 }
 
 module.exports = UserModel;

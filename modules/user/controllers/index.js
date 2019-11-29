@@ -7,6 +7,8 @@ class UserController {
     this.getById = this.getById.bind(this);
     this.insert = this.insert.bind(this);
     this.update = this.update.bind(this);
+    this.detele = this.delete.bind(this);
+    this.fullDelete = this.fullDelete.bind(this);
   }
 
   async index(req, res) {
@@ -52,6 +54,40 @@ class UserController {
 
     res.send({
       message: updateUser.message
+    });
+  }
+
+  async delete(req, res) {
+    const userId = req.params.id;
+
+    const deleteUser = await this.userService.delete(userId);
+
+    res.status(deleteUser.status);
+    if (deleteUser.status === 200) {
+      res.send({
+        data: deleteUser.data
+      });
+    }
+
+    res.send({
+      message: deleteUser.message
+    });
+  }
+
+  async fullDelete(req, res) {
+    const userId = req.params.id;
+
+    const deleteUser = await this.userService.fullDelete(userId);
+
+    res.status(deleteUser.status);
+    if (deleteUser.status === 200) {
+      res.send({
+        data: deleteUser.data
+      });
+    }
+
+    res.send({
+      message: deleteUser.message
     });
   }
 }

@@ -1,4 +1,5 @@
 const UserModel = require("@user/models");
+const brcypt = require("bcryptjs");
 
 class UserService {
   constructor() {
@@ -22,7 +23,7 @@ class UserService {
   async insert(data) {
     const user = {
       name: data.name,
-      password: data.password
+      password: await brcypt.hash(data.password, 10)
     };
 
     const userSave = await this.userModel.insert(user);
@@ -53,12 +54,60 @@ class UserService {
       data.name = userData.name;
     }
 
-    if (userData.age) {
-      data.age = userData.age;
+    if (userData.password) {
+      data.password = userData.password;
     }
 
     const updateUser = await this.userModel.update(userId, data);
     if (updateUser.affectedRows !== 1) {
+      return {
+        status: 500,
+        message: "Internal Server Error"
+      };
+    }
+
+    return {
+      status: 200,
+      data: "Data Updated"
+    };
+  }
+
+  async delete(userId) {
+    if (!userId) {
+      return {
+        status: 400,
+        message: "user id required"
+      };
+    }
+
+    const data = {
+      is_deleted: 1
+    };
+
+    const deletedUser = await this.userModel.update(userId, data);
+    if (deletedUser.affectedRows !== 1) {
+      return {
+        status: 500,
+        message: "Internal Server Error"
+      };
+    }
+
+    return {
+      status: 200,
+      data: "data updated"
+    };
+  }
+
+  async fullDelete(userId) {
+    if (!userId) {
+      return {
+        status: 400,
+        message: "userId is required!"
+      };
+    }
+
+    const deletedUser = await this.userModel.fullDelete(userId);
+    if (deletedUser.affectedRows !== 1) {
       return {
         status: 500,
         message: "Internal Server Error"

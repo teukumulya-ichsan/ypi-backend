@@ -23,6 +23,7 @@
   "homepage": "https://github.com/teukumulya-ichsan/ypi-backend.git#readme",
   "dependencies": {
     "amqplib": "^0.5.3",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "dotenv": "^8.0.0",
     "eslint": "^6.0.1",
