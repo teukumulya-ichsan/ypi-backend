@@ -17,6 +17,28 @@ class PostModel {
 
     return result;
   }
+
+  async update(postId, data) {
+    const query = `UPDATE ${this.table}
+                   SET ?
+                   WHERE id=?`;
+
+    const result = await this.dbService.query(query, [data, postId]);
+
+    return result;
+  }
+
+  async delete(id) {
+    const query = `DELETE from ${this.table} where id=?`;
+
+    return await this.dbService.query(query, id);
+  }
+
+  async getById(id) {
+    const query = `SELECT * from ${this.table} where id=?`;
+
+    return await this.dbService.query(query, id);
+  }
 }
 
 module.exports = PostModel;

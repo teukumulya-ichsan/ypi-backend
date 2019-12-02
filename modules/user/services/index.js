@@ -1,12 +1,11 @@
 const UserModel = require("@user/models");
-const Brcypt = require("bcryptjs");
+const brcypt = require("bcryptjs");
 const Validate = require("fastest-validator");
 const HttpStatus = require("http-status-codes");
 class UserService {
   constructor() {
     this.userModel = new UserModel();
     this.validator = new Validate();
-    this.brcypt = new Brcypt();
     this.schema = {
       name: {
         type: "string",

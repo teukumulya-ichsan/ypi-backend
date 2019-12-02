@@ -57,6 +57,81 @@ class PostService {
       data: "Post saved"
     };
   }
+
+  async update(postId, postData) {
+    if (!postId) {
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        message: "postId is required!"
+      };
+    }
+
+    // const data = {};
+
+    // if (postData.title) {
+    //   data.title = postData.title;
+    // }
+
+    // if (postData.post_type) {
+    //   data.post_type = postData.post_type;
+    // }
+
+    // if (postData.content) {
+    //   data.content = postData.content;
+    // }
+
+    const updatePost = await this.postModel.update(postId, postData);
+    if (updatePost.affectedRows !== 1) {
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: "internal server error"
+      };
+    }
+
+    return {
+      status: HttpStatus.OK,
+      data: "Post Updated"
+    };
+  }
+
+  async delete(postId) {
+    if (!postId) {
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        message: "postId is required"
+      };
+    }
+
+    const deletedPosts = await this.postModel.delete(postId);
+
+    if (deletedPosts.affectedRows !== 1) {
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: "Internal Server Error"
+      };
+    }
+
+    return {
+      status: HttpStatus.OK,
+      data: "Post Deleted"
+    };
+  }
+
+  async getById(postId) {
+    const data = await this.postModel.getById(postId);
+
+    if (data.length > 0) {
+      return {
+        status: HttpStatus.OK,
+        data: data
+      };
+    }
+
+    return {
+      status: HttpStatus.NO_CONTENT,
+      message: "Data Empty"
+    };
+  }
 }
 
 module.exports = PostService;
