@@ -9,8 +9,12 @@ module.exports = {
         autoIncrement: true
       },
       title: { type: Sequelize.STRING(225), allowNull: false },
-      description: {
-        type: Sequelize.STRING(255)
+      post_type: {
+        type: Sequelize.ENUM,
+        values: ["post", "pages"]
+      },
+      content: {
+        type: Sequelize.TEXT
       }
     });
   },

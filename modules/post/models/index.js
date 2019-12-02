@@ -10,4 +10,13 @@ class PostModel {
     const query = `SELECT * from ${this.table}`;
     return await this.dbService.query(query);
   }
+
+  async create(data) {
+    const query = `INSERT into ${this.table} SET ?`;
+    const result = await this.dbService.query(query, data);
+
+    return result;
+  }
 }
+
+module.exports = PostModel;

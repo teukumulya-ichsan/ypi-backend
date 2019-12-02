@@ -34,6 +34,7 @@
     "express": "^4.17.1",
     "express-pino-logger": "^4.0.0",
     "fastest-validator": "^0.6.17",
+    "http-status-codes": "^1.4.0",
     "ioredis": "^4.10.0",
     "module-alias": "^2.2.0",
     "mysql2": "^2.0.0",

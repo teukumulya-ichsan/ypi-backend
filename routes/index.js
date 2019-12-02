@@ -1,4 +1,5 @@
 const userRoute = require("@user/routes");
+const postRoute = require("@post/routes");
 
 module.exports = app => {
   app.route("/").get((req, res) => {
@@ -6,4 +7,5 @@ module.exports = app => {
   });
 
   userRoute(app);
+  postRoute(app);
 };
