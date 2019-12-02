@@ -1,9 +1,22 @@
 const UserModel = require("@user/models");
-const brcypt = require("bcryptjs");
-
+const Brcypt = require("bcryptjs");
+const Validate = require("fastest-validator");
+const HttpStatus = require("http-status-codes");
 class UserService {
   constructor() {
     this.userModel = new UserModel();
+    this.validator = new Validate();
+    this.brcypt = new Brcypt();
+    this.schema = {
+      name: {
+        type: "string",
+        min: 3
+      },
+      password: {
+        type: "forbidden",
+        min: 8
+      }
+    };
   }
 
   async index() {
@@ -26,16 +39,48 @@ class UserService {
       password: await brcypt.hash(data.password, 10)
     };
 
+    //form validation
+    const isFormValid = this.validator.validate(user, schema);
+
+    // jika form tidak valid
+    if (isFormValid !== true) {
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        error: {
+          error_code: "FORM_VALIDATION",
+          message: isFormValid
+        }
+      };
+    }
+
+    // jika form valid. check data validation
+    const isDataValid = await this.dataValidation(user);
+
+    // jika data tidak valid
+    if (isDataValid !== true) {
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        error: {
+          error_code: "DATA_VALIDATION",
+          message: isDataValid
+        }
+      };
+    }
+
     const userSave = await this.userModel.insert(user);
 
     if (userSave.affectedRows === 0) {
       return {
-        status: 500
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error: {
+          error_code: "INTERNAL_SERVER_ERROR",
+          message: "Internal Server Error"
+        }
       };
     }
 
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: "data saved"
     };
   }
@@ -118,6 +163,23 @@ class UserService {
       status: 200,
       data: "Data Updated"
     };
+  }
+
+  async dataValidation(data) {
+    const { name } = data;
+
+    const userWithName = await this.userModel.getUserByName(name);
+    if (userWithName.length > 0) {
+      return [
+        {
+          type: "string",
+          field: "name",
+          message: "the name already exist"
+        }
+      ];
+    }
+
+    return true;
   }
 }
 

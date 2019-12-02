@@ -1,8 +1,20 @@
 const PostModel = require("@post/models");
-
+const Validate = require("fastest-validator");
+const HttpStatus = require("http-status-codes");
 class PostService {
   constructor() {
     this.postModel = new PostModel();
+    this.validator = new Validate();
+    this.schema = {
+      title: {
+        type: "string",
+        min: 3
+      },
+      post_type: {
+        type: "string",
+        enum: ["post", "pages"]
+      }
+    };
   }
 
   async index() {
@@ -16,17 +28,33 @@ class PostService {
       content: data.content
     };
 
+    const isFormValid = this.validator.validate(post, schema);
+
+    if (isFormValid !== true) {
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        error: {
+          error_code: "FORM_VALIDATION",
+          message: isFormValid
+        }
+      };
+    }
+
     const postSave = await this.postModel.create(post);
 
     if (postSave.affectedRows === 0) {
       return {
-        status: 500
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error: {
+          error_code: "INTERNAL_SERVER_ERROR",
+          message: "Internal Server Error"
+        }
       };
     }
 
     return {
-      status: 200,
-      message: "Post Saved"
+      status: HttpStatus.OK,
+      data: "Post saved"
     };
   }
 }

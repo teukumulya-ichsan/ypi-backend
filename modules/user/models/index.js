@@ -16,6 +16,12 @@ class UserModel {
     return await this.dbService.query(query, id);
   }
 
+  async getUserByName(name) {
+    const query = `SELECT id from ${this.table} where name=?`;
+
+    return await this.db.query(query, name);
+  }
+
   async insert(data) {
     const query = `INSERT into ${this.table} SET ?`;
     const result = await this.dbService.query(query, data);

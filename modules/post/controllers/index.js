@@ -16,16 +16,16 @@ class PostController {
   async create(req, res) {
     const savePost = await this.postService.create(req.body);
 
-    if (savePost.status !== 200) {
-      res.status(500);
+    res.status(savePost.status);
+
+    if (savePost.status === 200) {
       res.send({
-        message: "Internal Server Error"
+        data: savePost
       });
     }
 
-    res.status(200); //accepted
     res.send({
-      data: savePost
+      error: savePost.error
     });
   }
 }
