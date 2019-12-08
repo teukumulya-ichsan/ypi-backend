@@ -1,8 +1,8 @@
-const DBService = require("@common/services/db.common.service.js");
+const DBService = require('@common/services/db.common.service.js');
 
 class UserModel {
   constructor() {
-    this.table = "users";
+    this.table = 'user';
     this.dbService = new DBService();
   }
 

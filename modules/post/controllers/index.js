@@ -1,4 +1,4 @@
-const PostService = require("@post/services");
+const PostService = require('@post/services');
 
 class PostController {
   constructor() {
@@ -11,9 +11,8 @@ class PostController {
   }
 
   async index(req, res) {
-    res.send({
-      data: await this.postService.index()
-    });
+    const result = await this.postService.index(req.query);
+    res.send(result);
   }
 
   async create(req, res) {

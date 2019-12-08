@@ -6,11 +6,17 @@ const bodyParser = require('body-parser');
 const server = require('@config/server.js');
 const routes = require('./routes');
 const Sequelize = require('sequelize');
+var cors = require('cors');
 
-const sequelize = new Sequelize('information_schema', process.env.DB_USER, process.env.DB_PASS, {
-  host: process.env.DB_HOST,
-  dialect: 'mysql'
-});
+const sequelize = new Sequelize(
+  'information_schema',
+  process.env.DB_USER,
+  process.env.DB_PASS,
+  {
+    host: process.env.DB_HOST,
+    dialect: 'mysql'
+  }
+);
 
 sequelize
   .authenticate()
@@ -22,6 +28,7 @@ sequelize
   });
 
 const app = express();
+app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

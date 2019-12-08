@@ -1,13 +1,20 @@
-const DBService = require("@common/services/db.common.service.js");
+const DBService = require('@common/services/db.common.service.js');
 
 class PostModel {
   constructor() {
-    this.table = "posts";
+    this.table = 'berita';
     this.dbService = new DBService();
   }
 
-  async index() {
-    const query = `SELECT * from ${this.table}`;
+  async index(search, sortBy = 'id', order = 'ASC') {
+    let query = `SELECT * from ${this.table}`;
+
+    if (search) {
+      query += ` AND name LIKE '%${search}%'`;
+    }
+
+    query += ` ORDER BY ${sortBy} ${order}`;
+
     return await this.dbService.query(query);
   }
 

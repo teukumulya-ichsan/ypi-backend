@@ -1,7 +1,6 @@
-version: '3.7'
+version: "3.7"
 
 services:
-
   db:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
@@ -35,7 +34,7 @@ services:
       - DB_USER=root
       - DB_PASS=12345678
       - DB_PORT=3306
-      - DB_DB=belajar-node
+      - DB_DB=cms
     depends_on:
       - db
     networks:
@@ -43,4 +42,4 @@ services:
 
 networks:
   node_network:
-    name: node_network 
+    name: node_network

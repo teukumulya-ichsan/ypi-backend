@@ -1,24 +1,32 @@
-const PostModel = require("@post/models");
-const Validate = require("fastest-validator");
-const HttpStatus = require("http-status-codes");
+const PostModel = require('@post/models');
+const Validate = require('fastest-validator');
+const HttpStatus = require('http-status-codes');
 class PostService {
   constructor() {
     this.postModel = new PostModel();
     this.validator = new Validate();
     this.schema = {
       title: {
-        type: "string",
+        type: 'string',
         min: 3
       },
       post_type: {
-        type: "string",
-        enum: ["post", "pages"]
+        type: 'string',
+        enum: ['post', 'pages']
       }
     };
   }
 
-  async index() {
-    return await this.postModel.index();
+  async index(query) {
+    const search = query.q;
+    const sortBy = query.sort_by;
+    const order = query.order;
+
+    const postData = await this.postModel.index(search, sortBy, order);
+
+    return {
+      data: postData
+    };
   }
 
   async create(data) {
@@ -34,7 +42,7 @@ class PostService {
       return {
         status: HttpStatus.BAD_REQUEST,
         error: {
-          error_code: "FORM_VALIDATION",
+          error_code: 'FORM_VALIDATION',
           message: isFormValid
         }
       };
@@ -46,15 +54,15 @@ class PostService {
       return {
         status: HttpStatus.INTERNAL_SERVER_ERROR,
         error: {
-          error_code: "INTERNAL_SERVER_ERROR",
-          message: "Internal Server Error"
+          error_code: 'INTERNAL_SERVER_ERROR',
+          message: 'Internal Server Error'
         }
       };
     }
 
     return {
       status: HttpStatus.OK,
-      data: "Post saved"
+      data: 'Post saved'
     };
   }
 
@@ -62,7 +70,7 @@ class PostService {
     if (!postId) {
       return {
         status: HttpStatus.BAD_REQUEST,
-        message: "postId is required!"
+        message: 'postId is required!'
       };
     }
 
@@ -84,13 +92,13 @@ class PostService {
     if (updatePost.affectedRows !== 1) {
       return {
         status: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: "internal server error"
+        message: 'internal server error'
       };
     }
 
     return {
       status: HttpStatus.OK,
-      data: "Post Updated"
+      data: 'Post Updated'
     };
   }
 
@@ -98,7 +106,7 @@ class PostService {
     if (!postId) {
       return {
         status: HttpStatus.BAD_REQUEST,
-        message: "postId is required"
+        message: 'postId is required'
       };
     }
 
@@ -107,13 +115,13 @@ class PostService {
     if (deletedPosts.affectedRows !== 1) {
       return {
         status: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: "Internal Server Error"
+        message: 'Internal Server Error'
       };
     }
 
     return {
       status: HttpStatus.OK,
-      data: "Post Deleted"
+      data: 'Post Deleted'
     };
   }
 
@@ -129,7 +137,7 @@ class PostService {
 
     return {
       status: HttpStatus.NO_CONTENT,
-      message: "Data Empty"
+      message: 'Data Empty'
     };
   }
 }
