@@ -6,13 +6,9 @@ class PostService {
     this.postModel = new PostModel();
     this.validator = new Validate();
     this.schema = {
-      title: {
+      judul: {
         type: 'string',
         min: 3
-      },
-      post_type: {
-        type: 'string',
-        enum: ['post', 'pages']
       }
     };
   }
@@ -31,22 +27,24 @@ class PostService {
 
   async create(data) {
     const post = {
-      title: data.title,
-      post_type: data.post_type,
-      content: data.content
+      judul: data.judul,
+      ringkasan: data.ringkasan,
+      konten: data.konten,
+      id_kategori: data.id_kategori,
+      status: data.status
     };
 
-    const isFormValid = this.validator.validate(post, schema);
+    // const isFormValid = this.validator.validate(post, schema);
 
-    if (isFormValid !== true) {
-      return {
-        status: HttpStatus.BAD_REQUEST,
-        error: {
-          error_code: 'FORM_VALIDATION',
-          message: isFormValid
-        }
-      };
-    }
+    // if (isFormValid !== true) {
+    //   return {
+    //     status: HttpStatus.BAD_REQUEST,
+    //     error: {
+    //       error_code: 'FORM_VALIDATION',
+    //       message: isFormValid
+    //     }
+    //   };
+    // }
 
     const postSave = await this.postModel.create(post);
 
@@ -131,7 +129,7 @@ class PostService {
     if (data.length > 0) {
       return {
         status: HttpStatus.OK,
-        data: data
+        data: data[0]
       };
     }
 

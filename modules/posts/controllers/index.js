@@ -71,9 +71,8 @@ class PostController {
   }
 
   async getPostDetail(req, res) {
-    res.send({
-      data: await this.postService.getById(req.params.id)
-    });
+    const data = await this.postService.getById(req.params.id);
+    res.send(data);
   }
 }
 

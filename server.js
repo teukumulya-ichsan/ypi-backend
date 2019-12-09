@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const server = require('@config/server.js');
 const routes = require('./routes');
 const Sequelize = require('sequelize');
-var cors = require('cors');
+const cors = require('cors');
 
 const sequelize = new Sequelize(
   'information_schema',
