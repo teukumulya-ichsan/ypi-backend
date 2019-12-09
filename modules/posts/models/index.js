@@ -10,7 +10,7 @@ class PostModel {
     let query = `SELECT * from ${this.table}`;
 
     if (search) {
-      query += ` AND name LIKE '%${search}%'`;
+      query += ` AND judul LIKE '%${search}%'`;
     }
 
     query += ` ORDER BY ${sortBy} ${order}`;

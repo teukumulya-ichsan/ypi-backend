@@ -56,9 +56,13 @@
   },
   "_moduleAliases": {
     "@root": ".",
+    "@config": "config",
     "@common": "modules/common",
     "@user": "modules/user",
-    "@post": "modules/post",
-    "@config": "config"
+    "@post": "modules/posts",
+    "@event": "modules/events",
+    "@categories": "modules/categories",
+    "@comments": "modules/comments",
+    "@likes": "modules/likes"
   }
 }
