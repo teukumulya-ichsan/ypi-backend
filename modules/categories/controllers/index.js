@@ -1,4 +1,4 @@
-const CategoryService = require('@categories/services');
+const CategoryService = require("@categories/services");
 
 class CategoryController {
   constructor() {
@@ -9,12 +9,17 @@ class CategoryController {
 
   async indexBerita(req, res) {
     const result = await this.categoryService.indexBerita(req.query);
-    res.send(result);
+    // contoh yang bener
+    res.send({
+      data: result
+    });
   }
 
   async indexEvent(req, res) {
     const result = await this.categoryService.indexEvent(req.query);
-    res.send(result);
+    res.send({
+      data: result
+    });
   }
 }
 
