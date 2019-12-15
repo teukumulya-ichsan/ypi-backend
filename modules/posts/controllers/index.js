@@ -57,11 +57,13 @@ class PostController {
 
     const deletePost = await this.postService.delete(postId);
 
+    console.log(deletePost);
+
     res.status(deletePost.status);
 
     if (deletePost.status === 200) {
       res.send({
-        data: deletePost.data
+        message: deletePost.message
       });
     }
 

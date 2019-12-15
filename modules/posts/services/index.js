@@ -8,7 +8,16 @@ class PostService {
     this.schema = {
       judul: {
         type: 'string',
-        min: 3
+        min: 5,
+        max: 255
+      },
+      status: {
+        type: 'string',
+        enum: ['ACTIVE', 'INACTIVE'],
+        optional: true
+      },
+      id_kategori: {
+        type: 'number'
       }
     };
   }
@@ -17,8 +26,16 @@ class PostService {
     const search = query.q;
     const sortBy = query.sort_by;
     const order = query.order;
+    const status = query.status;
+    const is_deleted = query.deleted;
 
-    const postData = await this.postModel.index(search, sortBy, order);
+    const postData = await this.postModel.index(
+      search,
+      sortBy,
+      order,
+      status,
+      is_deleted
+    );
 
     return {
       data: postData
@@ -26,27 +43,19 @@ class PostService {
   }
 
   async create(data) {
-    const post = {
-      judul: data.judul,
-      ringkasan: data.ringkasan,
-      konten: data.konten,
-      id_kategori: data.id_kategori,
-      status: data.status
-    };
+    const isFormValid = this.validator.validate(data, this.schema);
 
-    // const isFormValid = this.validator.validate(post, schema);
+    if (isFormValid !== true) {
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        error: {
+          error_code: 'FORM_VALIDATION',
+          message: isFormValid
+        }
+      };
+    }
 
-    // if (isFormValid !== true) {
-    //   return {
-    //     status: HttpStatus.BAD_REQUEST,
-    //     error: {
-    //       error_code: 'FORM_VALIDATION',
-    //       message: isFormValid
-    //     }
-    //   };
-    // }
-
-    const postSave = await this.postModel.create(post);
+    const postSave = await this.postModel.create(data);
 
     if (postSave.affectedRows === 0) {
       return {
@@ -60,7 +69,7 @@ class PostService {
 
     return {
       status: HttpStatus.OK,
-      data: 'Post saved'
+      message: 'Post saved'
     };
   }
 
@@ -72,19 +81,7 @@ class PostService {
       };
     }
 
-    // const data = {};
-
-    // if (postData.title) {
-    //   data.title = postData.title;
-    // }
-
-    // if (postData.post_type) {
-    //   data.post_type = postData.post_type;
-    // }
-
-    // if (postData.content) {
-    //   data.content = postData.content;
-    // }
+    console.log(postData);
 
     const updatePost = await this.postModel.update(postId, postData);
     if (updatePost.affectedRows !== 1) {
@@ -96,30 +93,34 @@ class PostService {
 
     return {
       status: HttpStatus.OK,
-      data: 'Post Updated'
+      message: 'Post Updated'
     };
   }
 
   async delete(postId) {
-    if (!postId) {
-      return {
-        status: HttpStatus.BAD_REQUEST,
-        message: 'postId is required'
-      };
-    }
+    const existsID = await this.postModel.getById(postId);
 
-    const deletedPosts = await this.postModel.delete(postId);
+    if (existsID.length > 0) {
+      const deletedPosts = await this.postModel.delete(postId);
+      if (deletedPosts.affectedRows !== 1) {
+        return {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: 'Internal Server Error'
+        };
+      }
 
-    if (deletedPosts.affectedRows !== 1) {
       return {
-        status: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: 'Internal Server Error'
+        status: HttpStatus.OK,
+        message: 'Post Deleted'
       };
     }
 
     return {
-      status: HttpStatus.OK,
-      data: 'Post Deleted'
+      status: HttpStatus.BAD_REQUEST,
+      error: {
+        error_code: 'BAD_REQUEST',
+        message: 'Unknown ID'
+      }
     };
   }
 

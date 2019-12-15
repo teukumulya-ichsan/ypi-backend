@@ -3,4 +3,4 @@ data/
 .vscode/
 .DS_Store
 .idea
-env
+.env

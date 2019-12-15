@@ -6,8 +6,18 @@ class PostModel {
     this.dbService = new DBService();
   }
 
-  async index(search, sortBy = 'id', order = 'ASC') {
+  async index(search, sortBy = 'id', order = 'DESC', status, is_deleted) {
     let query = `SELECT * from ${this.table}`;
+
+    if (is_deleted) {
+      query += ` WHERE is_deleted = 1`;
+    } else {
+      if (status) {
+        query += ` WHERE status = '${status}'`;
+      } else {
+        query += ` WHERE status = 'ACTIVE'`;
+      }
+    }
 
     if (search) {
       query += ` AND judul LIKE '%${search}%'`;
