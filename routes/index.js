@@ -1,5 +1,5 @@
 const userRoute = require('@user/routes');
-const postRoute = require('@post/routes');
+const beritaRoute = require('@berita/routes');
 const eventRoute = require('@event/routes');
 const categoryRoute = require('@categories/routes');
 const commentsRoute = require('@comments/routes');
@@ -11,7 +11,7 @@ module.exports = app => {
   });
 
   userRoute(app);
-  postRoute(app);
+  beritaRoute(app);
   eventRoute(app);
   categoryRoute(app);
   commentsRoute(app);

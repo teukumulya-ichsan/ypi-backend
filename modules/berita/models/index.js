@@ -1,6 +1,6 @@
 const DBService = require('@common/services/db.common.service.js');
 
-class PostModel {
+class BeritaModel {
   constructor() {
     this.table = 'berita';
     this.dbService = new DBService();
@@ -13,7 +13,7 @@ class PostModel {
       query += ` WHERE is_deleted = 1`;
     } else {
       if (status) {
-        query += ` WHERE status = '${status}'`;
+        query += ` WHERE status = '${status}' AND is_deleted = 0`;
       } else {
         query += ` WHERE status = 'ACTIVE'`;
       }
@@ -35,16 +35,17 @@ class PostModel {
     return result;
   }
 
-  async update(postId, data) {
+  async update(beritaId, data) {
     const query = `UPDATE ${this.table}
                    SET ?
                    WHERE id=?`;
 
-    const result = await this.dbService.query(query, [data, postId]);
+    const result = await this.dbService.query(query, [data, beritaId]);
 
     return result;
   }
 
+  // this function is gonna not using because using soft deleted
   async delete(id) {
     const query = `DELETE from ${this.table} where id=?`;
 
@@ -56,6 +57,12 @@ class PostModel {
 
     return await this.dbService.query(query, id);
   }
+
+  async getBeritaDeleted(id) {
+    const query = `SELECT id FROM ${this.table} WHERE is_deleted = 1 AND id=?`;
+
+    return await this.dbService.query(query, id);
+  }
 }
 
-module.exports = PostModel;
+module.exports = BeritaModel;

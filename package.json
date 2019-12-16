@@ -59,7 +59,7 @@
     "@config": "config",
     "@common": "modules/common",
     "@user": "modules/user",
-    "@post": "modules/posts",
+    "@berita": "modules/berita",
     "@event": "modules/events",
     "@categories": "modules/categories",
     "@comments": "modules/comments",
