@@ -108,7 +108,7 @@ class BeritaService {
 
         return {
           status: HttpStatus.OK,
-          message: 'Post Deleted'
+          message: 'Post Updated'
         };
       }
     }
