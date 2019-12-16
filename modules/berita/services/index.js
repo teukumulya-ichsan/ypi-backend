@@ -187,10 +187,11 @@ class BeritaService {
 
     return {
       status: HttpStatus.NO_CONTENT,
-      message: 'Data Empty'
+      message: 'DATA EMPTY'
     };
   }
 
+  // function data validation of deleted 'Berita'
   async dataValidation(data) {
     const beritaDelete = await this.beritaModel.getBeritaDeleted(data);
 
