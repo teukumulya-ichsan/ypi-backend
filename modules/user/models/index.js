@@ -16,13 +16,20 @@ class UserModel {
     return await this.dbService.query(query, id);
   }
 
-  async getUserByName(name) {
-    const query = `SELECT id from ${this.table} where name=?`;
+  async getUserByEmail(email) {
+    const query = `SELECT user_id from ${this.table} where email=?`;
 
-    return await this.db.query(query, name);
+    return await this.dbService.query(query, email);
   }
 
-  async insert(data) {
+  async getUserByPhone(mobile_phone) {
+    const query = `SELECT user_id from ${this.table} where mobile_phone=?`;
+
+    return await this.dbService.query(query, mobile_phone);
+  }
+
+  async create(data) {
+    console.log(data);
     const query = `INSERT into ${this.table} SET ?`;
     const result = await this.dbService.query(query, data);
     return result;

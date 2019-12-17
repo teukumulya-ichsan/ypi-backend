@@ -1,11 +1,11 @@
-const UserService = require("@user/services");
+const UserService = require('@user/services');
 
 class UserController {
   constructor() {
     this.userService = new UserService();
     this.index = this.index.bind(this);
     this.getById = this.getById.bind(this);
-    this.insert = this.insert.bind(this);
+    this.create = this.create.bind(this);
     this.update = this.update.bind(this);
     this.detele = this.delete.bind(this);
     this.fullDelete = this.fullDelete.bind(this);
@@ -23,11 +23,9 @@ class UserController {
     });
   }
 
-  async insert(req, res) {
-    const saveUser = await this.userService.insert(req.body);
-
+  async create(req, res) {
+    const saveUser = await this.userService.create(req.body);
     res.status(saveUser.status);
-
     if (saveUser.status === 200) {
       res.send({
         data: saveUser

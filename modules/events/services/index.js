@@ -28,7 +28,7 @@ class EventService {
     const sortBy = query.sort_by;
     const order = query.order;
     const status = query.status;
-    const is_deleted = query.deletedl;
+    const is_deleted = query.deleted;
 
     const eventData = await this.eventModel.index(
       search,
@@ -68,7 +68,7 @@ class EventService {
 
     return {
       status: HttpStatus.OK,
-      message: 'Event Saved'
+      message: 'EVENT SAVED'
     };
   }
 
@@ -103,7 +103,7 @@ class EventService {
 
       return {
         status: HttpStatus.OK,
-        message: 'Event Deleted'
+        message: 'EVENT DELETED'
       };
     }
 
@@ -111,7 +111,7 @@ class EventService {
       status: HttpStatus.BAD_REQUEST,
       error: {
         error_code: 'BAD_REQUEST',
-        message: 'Unknown ID'
+        message: 'UNKNOWN ID'
       }
     };
   }
@@ -143,7 +143,7 @@ class EventService {
 
         return {
           status: HttpStatus.OK,
-          message: 'Event Deleted'
+          message: 'EVENT DELETED'
         };
       }
     }
@@ -163,7 +163,7 @@ class EventService {
       if (data[0].is_deleted === 1) {
         return {
           status: HttpStatus.NO_CONTENT,
-          message: 'Data is Deleted'
+          message: 'DATA IS DELETED'
         };
       } else {
         return {
@@ -175,7 +175,7 @@ class EventService {
 
     return {
       status: HttpStatus.NO_CONTENT,
-      message: 'DATA EMPTY'
+      message: 'DATA NOT FOUND'
     };
   }
 
