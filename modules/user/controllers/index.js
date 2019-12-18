@@ -41,6 +41,7 @@ class UserController {
     const userId = req.params.id;
     const userData = req.body;
 
+    console.log(userId, userData);
     const updateUser = await this.userService.update(userId, userData);
 
     res.status(updateUser.status);

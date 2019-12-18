@@ -17,12 +17,6 @@ class UserService {
       },
       email: {
         type: 'email'
-      },
-      mobile_phone: {
-        type: 'string',
-        min: 10,
-        max: 12,
-        numeric: true
       }
     };
   }
@@ -35,8 +29,8 @@ class UserService {
     const user = {
       name: data.name,
       email: data.email,
-      password: await brcypt.hash(data.password, 10),
-      mobile_phone: data.mobile_phone,
+      password: await brcypt.hash('error404', 10),
+      // mobile_phone: data.mobile_phone,
       photo_url: data.photo_url
     };
 
@@ -83,6 +77,49 @@ class UserService {
     }
   }
 
+  async update(userId, userData) {
+    if (!userId) {
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        message: 'userId is required!'
+      };
+    }
+
+    const updatedUser = await this.userModel.update(userId, userData);
+
+    if (updatedUser.affectedRows !== 1) {
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'Internal Server Error'
+      };
+    }
+
+    return {
+      status: HttpStatus.OK,
+      data: 'User Updated'
+    };
+  }
+
+  async fullDelete(userId) {
+    if (!userId) {
+      return {
+        status: 400,
+        message: 'userId is required!'
+      };
+    }
+    const deletedUser = await this.userModel.fullDelete(userId);
+    if (deletedUser.affectedRows !== 1) {
+      return {
+        status: 500,
+        message: 'Internal Server Error'
+      };
+    }
+    return {
+      status: 200,
+      data: 'Data Deleted'
+    };
+  }
+
   async dataValidation(data) {
     const { email, mobile_phone } = data;
 
@@ -98,19 +135,23 @@ class UserService {
       ];
     }
 
-    const userWithPhone = await this.userModel.getUserByPhone(mobile_phone);
+    return true;
+  }
 
-    if (userWithPhone.length > 0) {
-      return [
-        {
-          type: 'number',
-          field: 'mobile_phone',
-          message: 'Phone Number already used'
-        }
-      ];
+  async getById(userId) {
+    const data = await this.userModel.getById(userId);
+
+    if (data.length > 0) {
+      return {
+        status: HttpStatus.OK,
+        data: data[0]
+      };
     }
 
-    return true;
+    return {
+      status: HttpStatus.NO_CONTENT,
+      message: 'DATA EMPTY'
+    };
   }
 }
 

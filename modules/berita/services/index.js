@@ -18,7 +18,7 @@ class BeritaService {
         optional: true
       },
       id_kategori: {
-        type: 'number'
+        type: 'string'
       }
     };
   }
