@@ -42,6 +42,21 @@ class CategoryModel {
 
     return await this.dbService.query(query, data);
   }
+
+  async updateCateBerita(cateId, data) {
+    const query = `UPDATE ${this.cate_berita}
+                   SET ?
+                   WHERE id=?`;
+
+    const result = await this.dbService.query(query, [data, cateId]);
+    return result;
+  }
+
+  async deleteCateBerita(id) {
+    const query = `DELETE from ${this.cate_berita} where id=?`;
+
+    return await this.dbService.query(query, id);
+  }
 }
 
 module.exports = CategoryModel;
