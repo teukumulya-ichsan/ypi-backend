@@ -9,6 +9,7 @@ class CategoryController {
     this.createCateBerita = this.createCateBerita.bind(this);
     this.updateCateBerita = this.updateCateBerita.bind(this);
     this.deleteCateBerita = this.deleteCateBerita.bind(this);
+    this.getCateBeritaById = this.getCateBeritaById.bind(this);
 
     // ------------------------- EVENT -------------------------- //
     this.indexEvent = this.indexEvent.bind(this);
@@ -23,7 +24,7 @@ class CategoryController {
     const result = await this.categoryService.indexBerita(req.query);
     // contoh yang bener
     res.send({
-      data: result
+      data: result.data
     });
   }
 
@@ -32,9 +33,7 @@ class CategoryController {
 
     res.status(saveCate.status);
     if (saveCate.status === 200) {
-      res.send({
-        data: saveCate
-      });
+      res.send(saveCate);
     }
 
     res.send({
@@ -53,9 +52,7 @@ class CategoryController {
 
     res.status(updatedCate.status);
     if (updatedCate.status === 200) {
-      res.send({
-        data: updatedCate
-      });
+      res.send(updatedCate);
     }
 
     res.send({
@@ -79,6 +76,22 @@ class CategoryController {
     });
   }
 
+  async getCateBeritaById(req, res) {
+    const cateId = req.params.id;
+
+    const cateData = await this.categoryService.getCateBeritaById(cateId);
+
+    res.status(cateData.status);
+    if (cateData.status === 200) {
+      res.send({
+        data: cateData
+      });
+    }
+
+    res.send({
+      error: cateData.error
+    });
+  }
   // ------------------------- EVENT -------------------------- //
 
   async indexEvent(req, res) {

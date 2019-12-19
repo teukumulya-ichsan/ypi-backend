@@ -125,6 +125,22 @@ class CategoryService {
     };
   }
 
+  async getCateBeritaById(cateId) {
+    const data = await this.categoryModel.getCateBeritaById(cateId);
+
+    if (data.length > 0) {
+      return {
+        status: HttpStatus.OK,
+        data: data[0]
+      };
+    }
+
+    return {
+      status: HttpStatus.NO_CONTENT,
+      message: 'DATA NOT FOUND'
+    };
+  }
+
   // -----------------------EVENT SERVICES -------------------------//
 
   async indexEvent(query) {

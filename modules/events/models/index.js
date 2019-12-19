@@ -15,7 +15,7 @@ class EventModel {
       if (status) {
         query += ` WHERE status = '${status}' AND is_deleted = 0`;
       } else {
-        query += ` WHERE status = 'ACTIVE'`;
+        query += ` WHERE status = 'ACTIVE' AND is_deleted = 0`;
       }
     }
 

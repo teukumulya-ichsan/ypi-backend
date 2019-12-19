@@ -10,6 +10,7 @@ module.exports = app => {
 
   app
     .route('/category-berita/:id')
+    .get(categoryController.getCateBeritaById)
     .put(categoryController.updateCateBerita)
     .delete(categoryController.deleteCateBerita);
 

@@ -30,6 +30,18 @@ class CategoryModel {
 
     return await this.dbService.query(query);
   }
+
+  async getCateBeritaById(id) {
+    const query = `SELECT * from ${this.cate_berita} where id=?`;
+
+    return await this.dbService.query(query, id);
+  }
+
+  async createCateBerita(data) {
+    const query = `INSERT into ${this.cate_berita} SET ?`;
+
+    return await this.dbService.query(query, data);
+  }
 }
 
 module.exports = CategoryModel;

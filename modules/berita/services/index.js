@@ -70,7 +70,7 @@ class BeritaService {
 
     return {
       status: HttpStatus.OK,
-      message: 'BERITA SAVED'
+      message: 'Berita Berhasil di Buat'
     };
   }
 
@@ -108,7 +108,7 @@ class BeritaService {
 
         return {
           status: HttpStatus.OK,
-          message: 'POST UPDATED'
+          message: 'Berita Berhasil di Update'
         };
       }
     }
@@ -153,7 +153,7 @@ class BeritaService {
 
         return {
           status: HttpStatus.OK,
-          message: 'BERITA DELETED'
+          message: 'Berita Berhasil di Hapus'
         };
       }
     }

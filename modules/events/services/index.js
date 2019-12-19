@@ -18,7 +18,7 @@ class EventService {
         optional: true
       },
       id_kategori: {
-        type: 'number'
+        type: 'string'
       }
     };
   }
@@ -68,7 +68,7 @@ class EventService {
 
     return {
       status: HttpStatus.OK,
-      message: 'EVENT SAVED'
+      message: 'Event Berhasil di Buat'
     };
   }
 
@@ -103,7 +103,7 @@ class EventService {
 
       return {
         status: HttpStatus.OK,
-        message: 'EVENT DELETED'
+        message: 'Event berhasil di Update'
       };
     }
 
@@ -143,7 +143,7 @@ class EventService {
 
         return {
           status: HttpStatus.OK,
-          message: 'EVENT DELETED'
+          message: 'Event Berhasil di Hapus'
         };
       }
     }
