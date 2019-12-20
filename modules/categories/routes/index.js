@@ -20,7 +20,8 @@ module.exports = app => {
     .post(categoryController.createCateEvent);
 
   app
-    .route('/category-event')
+    .route('/category-event/:id')
+    .get(categoryController.getCateEventById)
     .put(categoryController.updateCateEvent)
     .delete(categoryController.deleteCateEvent);
 };
