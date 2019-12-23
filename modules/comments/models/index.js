@@ -19,6 +19,19 @@ class CommentModel {
     return await this.dbService.query(query);
   }
 
+  async createCommentBerita(data) {
+    let query = `INSERT INTO ${this.comment_berita} SET ?`;
+    return await this.dbService.query(query, data);
+  }
+
+  async updateCommentBerita(commentId, data) {
+    let query = `UPDATE ${this.comment_berita} SET ? WHERE id=?`;
+
+    return await this.dbService.query(query, [data, commentId]);
+  }
+
+  //* ------------------------ EVENT ------------------------ *//
+
   async indexEvent(search, sortBy = 'id', order = 'ASC') {
     let query = `SELECT * from ${this.comment_event}`;
 
